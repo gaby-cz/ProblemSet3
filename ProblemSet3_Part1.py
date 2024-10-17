@@ -40,4 +40,32 @@ data_list.append(user_item)
 for item in data_list:
     # Concatenate the data_folder string with the item in the data_list
     print(data_folder + "\\" + item)
-# %%
+
+# %% Task 3 - Lists and iteration
+# /*--PS3: Code Block 3--*/
+
+# Subtask 3.1: Create an empty list variable named user_numbers
+user_numbers = []
+
+# Subtask 3.2: Iterate the following process three times (using the range() function and a for loop)
+for user_integer in range(3):
+    # Use the input() function to ask the user to "Enter an integer:"
+    user_integer = input("Enter an integer: ")
+    # Add the user-supplied integer to the user_numbers list created in 3.1
+    user_numbers.append(int(user_integer))
+
+# Subtask 3.3: Sort the user_numbers in ascending NUMERIC order
+asc_user_numbers = sorted(user_numbers)
+
+# Subtask 3.4: Print the highest value in the user_numbers (last value when sorted) to the interactive window
+print(asc_user_numbers[-1])
+
+# %% Task 3 - Challenge
+# /*--PS3: Code Block 4--*/
+
+# BONUS
+# Sort user_numbers in descending numeric order
+desc_user_numbers = sorted(user_numbers, reverse = True)
+
+# Print entire contents of list
+print(desc_user_numbers)
