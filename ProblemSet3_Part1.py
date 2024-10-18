@@ -3,7 +3,7 @@
 #
 # Description: 
 # Task 1: Python syntax & string manipulation
-# Task 2: Lists and iteration
+# Tasks 2 & 3: Lists and iteration
 #
 # Author: Gaby Czarniak (gabriella.czarniak@duke.edu)
 # Date:   October 2024
@@ -63,7 +63,6 @@ print(asc_user_numbers[-1])
 # %% Task 3 - Challenge
 # /*--PS3: Code Block 4--*/
 
-# BONUS
 # Sort user_numbers in descending numeric order
 desc_user_numbers = sorted(user_numbers, reverse = True)
 
