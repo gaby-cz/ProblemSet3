@@ -38,6 +38,7 @@ headerLineString = lineList[0]
 
 #Print the contents of the headerLine
 print(headerLineString)
+
 #%% Task 4.2
 
 #Split the headerLineString into a list of header items
@@ -50,4 +51,22 @@ fleet_idx = headerItems.index('fleet_name')
 
 #Print the values
 print(mmsi_idx,name_idx,fleet_idx)
-# %%
+
+#%% Task 4.3
+#Create an empty dictionary
+vesselDict = {}
+
+#Iterate through all lines (except the header) in the data file:
+for lineString in lineList:
+    if lineString[0] in ("m"):
+        continue
+    #Split the data into values
+    lineData = lineString.split(',')
+    #Extract the mmsi value from the list using the mmsi_idx value
+    mmsi = lineData[mmsi_idx]
+    #Extract the fleet value
+    fleet = lineData[fleet_idx]
+    #Adds info to the vesselDict dictionary
+    vesselDict[mmsi] = fleet
+
+
