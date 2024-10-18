@@ -24,39 +24,40 @@
 
 #%% Task 4.1 - Edit code to print as requested
 
-#Create a Python file object, i.e., a link to the file's contents
+# Create a Python file object, i.e., a link to the file's contents
 fileObj = open(file='data/raw/transshipment_vessels_20180723.csv',mode='r')
 
-#Read the entire contents into a list object
+# Read the entire contents into a list object
 lineList = fileObj.readlines()
 
-#Release the link to the file objects (now that we have all its contents)
+# Release the link to the file objects (now that we have all its contents)
 fileObj.close() #Close the file
 
-#Save the contents of the first line in the list of lines to the variable "headerLineString"
+# Save the contents of the first line in the list of lines to the variable "headerLineString"
 headerLineString = lineList[0]
 
-#Print the contents of the headerLine
+# Print the contents of the headerLine
 print(headerLineString)
 
 #%% Task 4.2
 
-#Split the headerLineString into a list of header items
+# Split the headerLineString into a list of header items
 headerItems = headerLineString.split(',')
 
-#List the index of the mmsi, shipname, and fleet_name values
+# List the index of the mmsi, shipname, and fleet_name values
 mmsi_idx = headerItems.index('mmsi')
 name_idx = headerItems.index('shipname')
 fleet_idx = headerItems.index('fleet_name')
 
-#Print the values
+# Print the values
 print(mmsi_idx,name_idx,fleet_idx)
 
 #%% Task 4.3
-#Create an empty dictionary
+
+# Create an empty dictionary
 vesselDict = {}
 
-#Iterate through all lines (except the header) in the data file:
+# Iterate through all lines (except the header) in the data file:
 for lineString in lineList:
     if lineString[0] in ("m"):
         continue
@@ -69,4 +70,17 @@ for lineString in lineList:
     #Adds info to the vesselDict dictionary
     vesselDict[mmsi] = fleet
 
+#%% Task 4.4
+# Assign the string value 440196000 to a variable named vesselID
+vesselID = '440196000'
+
+# Use the vesselDict dictionary to look up the fleet value for 
+# the vessel with the MMSI equal to the vesselID value.
+vesselDict[vesselID]
+# South Korea 
+
+# Print statement
+for key, value in vesselDict.items(): # the items are key value pairs so we'll pull them out into separate values
+    if key == vesselID: # the value in date_dict is the date
+        print(f"Vessel # {vesselID} flies the flag of {value}") # add key to list
 
