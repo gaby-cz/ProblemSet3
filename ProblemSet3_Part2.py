@@ -50,7 +50,7 @@ name_idx = headerItems.index('shipname')
 fleet_idx = headerItems.index('fleet_name')
 
 # Print the values
-print(mmsi_idx,name_idx,fleet_idx)
+print(mmsi_idx, name_idx, fleet_idx)
 
 #%% Task 4.3
 
@@ -81,8 +81,8 @@ vesselDict[vesselID]
 
 # Print statement
 for key, value in vesselDict.items(): # the items are key value pairs so we'll pull them out into separate values
-    if key == vesselID: # the value in date_dict is the date
-        print(f"Vessel # {vesselID} flies the flag of {value}") # add key to list
+    if key == vesselID: 
+        print(f"Vessel # {vesselID} flies the flag of {value}")
 
 #%% Task 5.1
 # Open .csv file
@@ -133,22 +133,21 @@ for loit_lineString in loit_lineList:
     loit_end_long = loit_lineData[loit_end_long_idx]
 
     # Evaluate cross-equator criterion
-        # If it crossed the equator, it means the sign changed
-        # If the boolean object is TRUE (i.e. they're different signs), it crossed
+    ## If it started at negative lat and ended at positive lat, it means the vessel crossed from South to North
+    ## Want the boolean object to be TRUE
     lat_bool_criterion = (float(loit_start_lat) < 0) and (float(loit_end_lat) > 0)
     
     # Evaluate start longitude criterion: 
-        # If it originated within 145 to 155, it means 
-        # the starting longitude has to be within that range
+    ## If it originated within 145 to 155, it means the starting longitude has to be within that range
     long_range_criterion = 145 <= float(loit_start_long) <= 155
     
     # If both criteria are met...
     if all([lat_bool_criterion, long_range_criterion]) == True:
-        keys.append(loit_mmsi) if loit_mmsi not in keys else keys 
-        # I only wanted to print each mmsi once, so I learned the above phrase of code from Stack Overflow at this link: https://stackoverflow.com/questions/17370984/appending-an-id-to-a-list-if-not-already-present-in-the-list
-
-        # Query for fleet in first dictionary
-        # Use get() because not all mmsi from loitering are in transshipment
+        # Store that mmsi
+        keys.append(loit_mmsi)
+        
+        # Query for fleet in Task 4's dictionary
+        # Use get() in case not all mmsi from loitering are in transshipment
         loit_fleet = vesselDict.get(loit_mmsi)
         # Print mmsi and fleet
         print(f"Vessel # {loit_mmsi} flies the flag of {loit_fleet}") # add key to list
@@ -159,7 +158,3 @@ for loit_lineString in loit_lineList:
 if len(keys) == 0:
     #  Report if no records were found
     print(f"No vessels met the criteria.")
-
-
-
-# %%
