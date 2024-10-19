@@ -135,7 +135,7 @@ for loit_lineString in loit_lineList:
     # Evaluate cross-equator criterion
         # If it crossed the equator, it means the sign changed
         # If the boolean object is TRUE (i.e. they're different signs), it crossed
-    lat_bool_criterion = loit_start_lat[0] != loit_end_lat[0]
+    lat_bool_criterion = (float(loit_start_lat) < 0) and (float(loit_end_lat) > 0)
     
     # Evaluate start longitude criterion: 
         # If it originated within 145 to 155, it means 
@@ -144,34 +144,22 @@ for loit_lineString in loit_lineList:
     
     # If both criteria are met...
     if all([lat_bool_criterion, long_range_criterion]) == True:
-        keys.append(loit_mmsi)
+        keys.append(loit_mmsi) if loit_mmsi not in keys else keys 
+        # I only wanted to print each mmsi once, so I learned the above phrase of code from Stack Overflow at this link: https://stackoverflow.com/questions/17370984/appending-an-id-to-a-list-if-not-already-present-in-the-list
 
         # Query for fleet in first dictionary
-        loit_fleet = vesselDict[loit_mmsi]
-
-        if loit_mmsi not in vesselDict.items():
-            continue
+        # Use get() because not all mmsi from loitering are in transshipment
+        loit_fleet = vesselDict.get(loit_mmsi)
         # Print mmsi and fleet
         print(f"Vessel # {loit_mmsi} flies the flag of {loit_fleet}") # add key to list
 
-        #%%
-        # Print mmsi and fleet
-        for key in keys:
-            if key not in vesselDict.items:
-                continue
-            loit_fleet = vesselDict[key]
-            loit_fleet_name = loit_fleet[1]
+# BONUS 
+# Outside the loop because the keys list is defined outside of loop and keys will only be appended if criteria are met
+# If no vessels meet criteria...
+if len(keys) == 0:
+    #  Report if no records were found
+    print(f"No vessels met the criteria.")
 
-#%%
-#Loop through items in date_dict
-for key, value in vesselDict.items(): # the items are key value pairs so we'll pull them out into separate values
-    if key == keys(loit_mmsi): # the value in date_dict is the date
-        keys.append(key) # add key to list
 
-    print(f"Vessel #{loit_mmsi} flies the flag of {loit_fleet_name}\n")
-    
-    # BONUS 
-    # If no vessels meet criteria...
-        # Print "No vessels met criteria."
 
 # %%
