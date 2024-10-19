@@ -84,3 +84,94 @@ for key, value in vesselDict.items(): # the items are key value pairs so we'll p
     if key == vesselID: # the value in date_dict is the date
         print(f"Vessel # {vesselID} flies the flag of {value}") # add key to list
 
+#%% Task 5.1
+# Open .csv file
+loit_fileObj = open(file='data/raw/loitering_events_20180723.csv',mode='r')
+
+#%% Task 5.2
+# Construct list of all lines in .csv file
+# Read the entire contents into a list object
+loit_lineList = loit_fileObj.readlines()
+
+# Save the contents of the first line in the list of lines to the variable "headerLineString"
+loit_headerLineString = loit_lineList[0]
+
+# Release the link to the loitering file objects 
+loit_fileObj.close() 
+
+#%% Task 5.3
+
+# Split the headerLineString into a list of header items
+loit_headerItems = loit_headerLineString.split(',')
+
+# List the index of the mmsi, shipname, and fleet_name values
+loit_mmsi_idx = loit_headerItems.index('transshipment_mmsi')
+loit_start_lat_idx = loit_headerItems.index('starting_latitude')
+loit_start_long_idx = loit_headerItems.index('starting_longitude')
+loit_end_lat_idx = loit_headerItems.index('ending_latitude')
+loit_end_long_idx = loit_headerItems.index('ending_longitude')
+
+# Print the values
+print(loit_mmsi_idx, loit_start_lat_idx, loit_start_long_idx, loit_end_lat_idx, loit_end_long_idx)
+
+# Create empty list for keys that match the criteria
+keys = []
+
+# Loop through each data line
+for loit_lineString in loit_lineList:
+    if loit_lineString[0] in ("t"):
+        continue
+
+    # Split the line string into a list of data items
+    loit_lineData = loit_lineString.split(',')
+
+    # Store values in their own respective variables
+    loit_mmsi = loit_lineData[loit_mmsi_idx]
+    loit_start_lat = loit_lineData[loit_start_lat_idx]
+    loit_end_lat = loit_lineData[loit_end_lat_idx]
+    loit_start_long = loit_lineData[loit_start_long_idx]
+    loit_end_long = loit_lineData[loit_end_long_idx]
+
+    # Evaluate cross-equator criterion
+        # If it crossed the equator, it means the sign changed
+        # If the boolean object is TRUE (i.e. they're different signs), it crossed
+    lat_bool_criterion = loit_start_lat[0] != loit_end_lat[0]
+    
+    # Evaluate start longitude criterion: 
+        # If it originated within 145 to 155, it means 
+        # the starting longitude has to be within that range
+    long_range_criterion = 145 <= float(loit_start_long) <= 155
+    
+    # If both criteria are met...
+    if all([lat_bool_criterion, long_range_criterion]) == True:
+        keys.append(loit_mmsi)
+
+        # Query for fleet in first dictionary
+        loit_fleet = vesselDict[loit_mmsi]
+
+        if loit_mmsi not in vesselDict.items():
+            continue
+        # Print mmsi and fleet
+        print(f"Vessel # {loit_mmsi} flies the flag of {loit_fleet}") # add key to list
+
+        #%%
+        # Print mmsi and fleet
+        for key in keys:
+            if key not in vesselDict.items:
+                continue
+            loit_fleet = vesselDict[key]
+            loit_fleet_name = loit_fleet[1]
+
+#%%
+#Loop through items in date_dict
+for key, value in vesselDict.items(): # the items are key value pairs so we'll pull them out into separate values
+    if key == keys(loit_mmsi): # the value in date_dict is the date
+        keys.append(key) # add key to list
+
+    print(f"Vessel #{loit_mmsi} flies the flag of {loit_fleet_name}\n")
+    
+    # BONUS 
+    # If no vessels meet criteria...
+        # Print "No vessels met criteria."
+
+# %%
